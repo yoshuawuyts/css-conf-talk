@@ -82,6 +82,7 @@ function splitter (arr) {
     var nodeName = el.nodeName.toLowerCase()
     if (nodeName === 'h1') el.setAttribute('class', 'f-5')
     if (nodeName === 'pre') el.setAttribute('class', 'f3 bg-dark-gray mw9 pa4 tl')
+    if (nodeName === 'ul') el.setAttribute('class', 'f2 list b lh-copy')
     return el
   }
 }
@@ -99,7 +100,7 @@ function createRoute (app, els) {
     return function (state, emit) {
       return html`
         <body class="${style} sans-serif flex justify-center items-center">
-          <main class="mw8 w-100 tc">
+          <main class="mw8 w-100 tc f2 b">
             ${content}
           </main>
         </body>
