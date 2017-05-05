@@ -1,0 +1,32 @@
+{
+  "name": "css-conf-talk",
+  "description": "talkin bout css",
+  "repository": "yoshuawuyts/css-conf-talk",
+  "version": "1.0.0",
+  "private": true,
+  "browserify": {
+    "transform": [
+      "brfs"
+    ]
+  },
+  "scripts": {
+    "deps": "dependency-check . && dependency-check . --extra --no-dev",
+    "start": "bankai start",
+    "build": "bankai build",
+    "inspect": "bankai inspect",
+    "test": "standard && npm run deps"
+  },
+  "dependencies": {
+    "highlight-syntax": "^3.0.2",
+    "highlight-syntax-pastel": "^1.0.0",
+    "marked": "^0.3.6",
+    "sheetify": "^6.0.2",
+    "tachyons": "^4.7.1"
+  },
+  "devDependencies": {
+    "brfs": "^1.4.3",
+    "dependency-check": "^2.8.0",
+    "standard": "^10.0.2",
+    "tape": "^4.6.3"
+  }
+}
