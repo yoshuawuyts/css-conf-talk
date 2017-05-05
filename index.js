@@ -33,15 +33,15 @@ function keyNav (state, emitter) {
       var num = loc ? Number(loc) : 0
       if (e.key === 'ArrowLeft' || e.key === 'h') {
         var lnum = num - 1
-        var lloc = lnum === 1 ? '/' : '#' + lnum
-        if (!(num < 0)) {
+        var lloc = lnum === 0 ? '/' : '#' + lnum
+        if (!(lnum < 0)) {
           emitter.emit('pushState', lloc)
           emitter.emit('render')
         }
       } else if (e.key === 'ArrowRight' || e.key === 'l') {
-        var rnum = num - 1
-        var rloc = rnum === 1 ? '/' : '#' + rnum
-        if (!(num > state.max)) {
+        var rnum = num + 1
+        var rloc = rnum === 0 ? '/' : '#' + rnum
+        if (!(rnum > state.max)) {
           emitter.emit('pushState', rloc)
           emitter.emit('render')
         }
@@ -81,6 +81,7 @@ function splitter (arr) {
   function fmt (el) {
     var nodeName = el.nodeName.toLowerCase()
     if (nodeName === 'h1') el.setAttribute('class', 'f-5')
+    if (nodeName === 'pre') el.setAttribute('class', 'f3 bg-dark-gray mw9 pa4 tl')
     return el
   }
 }
@@ -98,7 +99,7 @@ function createRoute (app, els) {
     return function (state, emit) {
       return html`
         <body class="${style} sans-serif flex justify-center items-center">
-          <main class="mw8">
+          <main class="mw8 w-100 tc">
             ${content}
           </main>
         </body>
