@@ -13,7 +13,7 @@ var html = require('choo/html')
 var choo = require('choo')
 
 var app = choo()
-app.route(mainView)
+app.route('/', mainView)
 app.mount('body')
 
 function mainView () {

@@ -10,9 +10,7 @@ var src = fs.readFileSync('slides.md', 'utf8')
 var els = splitter(toHtml(marked(src, { highlight: highlight })))
 
 var style = css`
-  :host {
-    background-color: pink;
-  }
+  :host { background-color: pink }
 `
 
 css('highlight-syntax-pastel')
@@ -28,7 +26,7 @@ function keyNav (state, emitter) {
   state.max = els.length - 1
 
   emitter.on('DOMContentLoaded', function () {
-    document.body.addEventListener('keydown', function (e) {
+    document.body.addEventListener('keyup', function (e) {
       var loc = window.location.hash.replace('#', '')
       var num = loc ? Number(loc) : 0
       if (e.key === 'ArrowLeft' || e.key === 'h') {
@@ -36,14 +34,12 @@ function keyNav (state, emitter) {
         var lloc = lnum === 0 ? '/' : '#' + lnum
         if (!(lnum < 0)) {
           emitter.emit('pushState', lloc)
-          emitter.emit('render')
         }
       } else if (e.key === 'ArrowRight' || e.key === 'l') {
         var rnum = num + 1
         var rloc = rnum === 0 ? '/' : '#' + rnum
         if (!(rnum > state.max)) {
           emitter.emit('pushState', rloc)
-          emitter.emit('render')
         }
       }
     })
@@ -53,7 +49,7 @@ function keyNav (state, emitter) {
 function toHtml (str) {
   var el = document.createElement('div')
   el.innerHTML = str
-  return el.children
+  return el.childNodes
 }
 
 function splitter (arr) {
@@ -64,12 +60,23 @@ function splitter (arr) {
   for (var i = 0; i < len; i++) {
     var el = arr[i]
     el = fmt(el)
+
     var nodeName = el.nodeName.toLowerCase()
     if (i === len - 1) {
       if (nodeName !== 'hr') curr.push(el)
       res.push(curr)
+      // res.push(html`
+      //   <main class="mw8 w-100 tc f2 b">
+      //     ${curr}
+      //   </main>
+      // `)
     } else if (nodeName === 'hr') {
       res.push(curr)
+      // res.push(html`
+      //   <main class="mw8 w-100 tc f2 b">
+      //     ${curr}
+      //   </main>
+      // `)
       curr = []
     } else {
       curr.push(el)
@@ -98,10 +105,13 @@ function createRoute (app, els) {
 
   function view (content) {
     return function (state, emit) {
+      var _content = content.map(function (el) {
+        return el.cloneNode(true)
+      })
       return html`
         <body class="${style} sans-serif flex justify-center items-center">
           <main class="mw8 w-100 tc f2 b">
-            ${content}
+            ${_content}
           </main>
         </body>
       `
